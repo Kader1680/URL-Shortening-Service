@@ -8,7 +8,33 @@
     <div id="data-container" class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
       {% for url in allUrls %}
         <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 transform hover:scale-105 p-6 border-l-4" style="border-color: #6931EF;">
-          <p class="text-lg font-medium text-gray-800 truncate" title="{{ url.title }}">{{ url.title }}</p>
+          <p class="text-lg font-medium text-gray-800 truncate mb-4" title="{{ url.title }}">{{ url.title }}</p>
+          
+          <!-- Button Group -->
+          <div class="mt-4 flex space-x-3">
+            <!-- Edit Button -->
+            <a href="/edit/{{url.id}}" class="flex items-center text-white bg-blue-500 hover:bg-blue-700 font-bold py-2 px-4 rounded-lg shadow-lg transform transition duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-blue-300">
+              <svg class="w-5 h-5 mr-2" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                <path d="M17.414 2.586a2 2 0 00-2.828 0l-10 10a1 1 0 00-.293.707V16a1 1 0 001 1h2.586a1 1 0 00.707-.293l10-10a2 2 0 000-2.828z"/>
+              </svg>
+              Edit
+            </a>
+            
+            <!-- Remove Button -->
+            <form action="/get/{{url.id}}" method="POST" class="inline">
+              {% csrf_token %}
+              <button 
+                type="submit" 
+                class="flex items-center text-white bg-red-500 hover:bg-red-700 font-bold py-2 px-4 rounded-lg shadow-lg transform transition duration-200 hover:scale-105 focus:outline-none focus:ring-2 focus:ring-red-300"
+                onclick="return confirm('Are you sure you want to delete this URL?');"
+              >
+                <svg class="w-5 h-5 mr-2" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                  <path fill-rule="evenodd" d="M6 2a1 1 0 00-1 1v1H3a1 1 0 000 2h14a1 1 0 000-2h-2V3a1 1 0 00-1-1H6zm3 6a1 1 0 011 1v5a1 1 0 11-2 0V9a1 1 0 011-1zm4 0a1 1 0 011 1v5a1 1 0 11-2 0V9a1 1 0 011-1z" clip-rule="evenodd"/>
+                </svg>
+                Remove
+              </button>
+            </form>
+          </div>
         </div>
       {% endfor %}
     </div>

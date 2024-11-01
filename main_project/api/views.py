@@ -68,24 +68,36 @@ def getUrls(request):
     
 def main(request):
     return HttpResponse("wiiiou")
-
-
-
-
-
  
-def storeUrl(request):
-    
+def storeUrl(request):    
     if request.method == "POST":
           url = request.POST['url']
           obj = Url(title=url)
           obj.save()
-    
     return render(request, "form.html")
 
 
+ 
+def edit(request, pk):
+    obj = Url.objects.get(pk = pk)
+    if request.method == "POST":
+        
+        obj.title = request.POST['url']
+        obj.save()
+    
+    obj = Url.objects.get(pk=pk)
+    context = {"obj":obj}
+    return render(request, "edit.html", context)
 
 
+def delete(request, pk):
+    obj = Url.objects.get(pk = pk)
+    if request.method == "POST":
+       obj.delete()
+       return HttpResponse("delete the url")
+   
+    return HttpResponse("delete the url")
+    
 @api_view(["POST"])
 def storeData(request):
     serialize = UserSerialzer(data=request.data)   
@@ -95,3 +107,4 @@ def storeData(request):
         return Response(serialize.data, status=status.HTTP_201_CREATED)
     else:
       return Response(status=status.HTTP_400_BAD_REQUEST)
+
