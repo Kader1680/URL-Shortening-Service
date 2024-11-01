@@ -5,6 +5,7 @@ from rest_framework.decorators import api_view
 
 from django.http import HttpResponse
 from .models import User
+from .models import Url
 from .serializer import UserSerialzer
 from rest_framework import status
 
@@ -56,13 +57,33 @@ def form(request):
     users = {
         'users' : user_data
     }
-    
-    
     return render(request, 'form.html', users)
+    
+@api_view(["GET"])    
+def getUrls(request):
+    
+    allUrls = Url.objects.all()
+    return render(request, "index.html",  {"allUrls" : allUrls})
     
     
 def main(request):
     return HttpResponse("wiiiou")
+
+
+
+
+
+ 
+def storeUrl(request):
+    
+    if request.method == "POST":
+          url = request.POST['url']
+          obj = Url(title=url)
+          obj.save()
+    
+    return render(request, "form.html")
+
+
 
 
 @api_view(["POST"])
