@@ -4,13 +4,18 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view 
 
 from django.http import HttpResponse
-from .models import User
+# from .models import User
 from .models import Url
-from .serializer import UserSerialzer
+# from .serializer import UserSerialzer
 from rest_framework import status
 
-from django.shortcuts import render
+from django.shortcuts import render, redirect
+import random
+import string   
 
+# from django.contrib.auth.forms import UserCreationForm
+# from .forms import InputForm
+ 
 user_data = [{
     "id": 101,
     "name": "mellisa",
@@ -72,11 +77,21 @@ def main(request):
 def storeUrl(request):    
     if request.method == "POST":
           url = request.POST['url']
-          obj = Url(title=url)
-          obj.save()
-    return render(request, "form.html")
+          
+          slug = ''.join(random.choice(string.ascii_letters)
+                           for x in range(10))
+          new_url = Url(title=url, slug=slug)
+          new_url.save()
+        
+          return redirect('/')
+   
+    return redirect('/')
+     
 
 
+def redirectToUrl(request, slug):
+   return "dff"      
+ 
  
 def edit(request, pk):
     obj = Url.objects.get(pk = pk)
@@ -98,13 +113,38 @@ def delete(request, pk):
    
     return HttpResponse("delete the url")
     
-@api_view(["POST"])
-def storeData(request):
-    serialize = UserSerialzer(data=request.data)   
-    # check the serilzer data if it valid
-    if serialize.is_valid():
-        serialize.save()
-        return Response(serialize.data, status=status.HTTP_201_CREATED)
-    else:
-      return Response(status=status.HTTP_400_BAD_REQUEST)
+# @api_view(["POST"])
+# def storeData(request):
+#     serialize = UserSerialzer(data=request.data)   
+#     # check the serilzer data if it valid
+#     if serialize.is_valid():
+#         serialize.save()
+#         return Response(serialize.data, status=status.HTTP_201_CREATED)
+#     else:
+#       return Response(status=status.HTTP_400_BAD_REQUEST)
 
+
+# authentication Part
+
+# def login(request):
+    
+#     return render(request, "login.html")
+ 
+
+# def register(request):
+    
+#     # if request.method == "POST":
+#     #    username = request.POST['username']
+#     #    email = request.POST['email']
+#     #    passowrd = request.POST['passowrd']
+#     #    data = User(username=username, email=email, passowrd=passowrd)
+#     #    data.save()
+    
+#     # return render(request, "register.html")
+    
+#     form = UserCreationForm()
+    
+#     return render(request, "register.html", {"form": form})
+#     # context ={}
+#     # context['form']= InputForm()
+#     # return render(request, "home.html", context)

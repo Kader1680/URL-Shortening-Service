@@ -8,7 +8,8 @@
     <div id="data-container" class="grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
       {% for url in allUrls %}
         <div class="bg-white rounded-xl shadow-md hover:shadow-lg transition-shadow duration-300 transform hover:scale-105 p-6 border-l-4" style="border-color: #6931EF;">
-          <p class="text-lg font-medium text-gray-800 truncate mb-4" title="{{ url.title }}">{{ url.title }}</p>
+          <p class="text-lg font- text-gray-800 truncate mb-4" title="{{ url.title }}"><span class="underline">Original:</span> {{ url.title }}</p>
+          <p class="text-lg font-medium text-gray-800 truncate mb-4" title="{{ url.title }}"><span class="underline">Shortest:</span> <a target="_blank" href=" {{ url.title }}">{{ url.slug }}<a/></p>
           
           <!-- Button Group -->
           <div class="mt-4 flex space-x-3">
