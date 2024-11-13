@@ -9,7 +9,7 @@ from .models import Url
 # from .serializer import UserSerialzer
 from rest_framework import status
 
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 import random
 import string   
 
@@ -83,35 +83,51 @@ def storeUrl(request):
           new_url = Url(title=url, slug=slug)
           new_url.save()
         
-          return redirect('/')
-   
-    return redirect('/')
-     
-
-
-def redirectToUrl(request, slug):
-   return "dff"      
- 
- 
-def edit(request, pk):
-    obj = Url.objects.get(pk = pk)
-    if request.method == "POST":
         
-        obj.title = request.POST['url']
-        obj.save()
+
+          return redirect('/')  
+    return render(request, "form.html")
+      
     
-    obj = Url.objects.get(pk=pk)
-    context = {"obj":obj}
+   
+    
+     
+def redirect_to_url(request, slug):
+    # Retrieve the original URL from the slug
+    url_entry = get_object_or_404(Url, slug=slug)
+    
+    # Redirect to the original URL
+    return redirect(url_entry.title)
+
+
+ 
+
+def edit(request, pk):
+    # Get the URL object using get_object_or_404 to handle errors if object doesn't exist
+    obj = get_object_or_404(Url, pk=pk)
+    
+    if request.method == "POST":
+        # Update the title of the URL object
+        obj.title = request.POST.get('url', obj.title)  # Use obj.title as default if 'url' not in POST
+        obj.save()
+
+        # Redirect to the homepage or any other page after saving
+        return redirect("/")  # You can change the redirect location if needed
+
+    # Prepare the context to pass to the template
+    context = {"obj": obj}
     return render(request, "edit.html", context)
+
+    
 
 
 def delete(request, pk):
     obj = Url.objects.get(pk = pk)
     if request.method == "POST":
        obj.delete()
-       return HttpResponse("delete the url")
+       return redirect("/")
    
-    return HttpResponse("delete the url")
+    
     
 # @api_view(["POST"])
 # def storeData(request):
