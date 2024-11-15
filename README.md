@@ -18,7 +18,7 @@
 
 <h3>Demo of vedio</h3>
 
-![Project Intro](vedio.mp4)
+![Project Intro](./vedio.mp4)
 
 
 <p>You can optionally setup a minimal frontend to interact with the API and setup redirects for the short URLs to the original URLs.</p>
